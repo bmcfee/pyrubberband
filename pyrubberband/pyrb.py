@@ -4,6 +4,7 @@
 
 
 import os
+import six
 import subprocess
 import tempfile
 
@@ -37,8 +38,8 @@ def __rubberband(y, sr, **kwargs):
     assert sr > 0
 
     # Get the input and output tempfile
-    _, infile = tempfile.mkstemp(suffix='wav')
-    _, outfile = tempfile.mkstemp(suffix='wav')
+    _, infile = tempfile.mkstemp(suffix='.wav')
+    _, outfile = tempfile.mkstemp(suffix='.wav')
 
     # dump the audio
     librosa.output.write_wav(infile, y, sr)
@@ -47,21 +48,23 @@ def __rubberband(y, sr, **kwargs):
         # Execute rubberband
         arguments = ['rubberband']
 
-        for key, value in kwargs:
-            arguments.append(key)
-            arguments.append(value)
+        for key, value in six.iteritems(kwargs):
+            arguments.append(str(key))
+            arguments.append(str(value))
 
         arguments.extend([infile, outfile])
 
-        subprocess.check_call(*arguments)
+        subprocess.check_call(arguments)
 
         # Load the processed audio.
         # Setting mono=False will ensure that the shape matches `y`
         y_out, _ = librosa.load(outfile, sr=sr, mono=False)
 
     finally:
+        # Remove temp files
         os.unlink(infile)
         os.unlink(outfile)
+        pass
 
     return y_out
 
@@ -94,12 +97,15 @@ def time_stretch(y, sr, rate, rbargs=None):
     if rate < 0:
         raise ValueError('rate must be strictly positive')
 
-    rbargs.setdefault('--time', rate)
+    if rbargs is None:
+        rbargs = dict()
+
+    rbargs.setdefault('--time', 1./rate)
 
     return __rubberband(y, sr, **rbargs)
 
 
-def pitch_shift(y, sr, n_steps, rbargs):
+def pitch_shift(y, sr, n_steps, rbargs=None):
     '''Apply a time stretch of `rate` to an audio file
 
     Parameters
@@ -123,6 +129,9 @@ def pitch_shift(y, sr, n_steps, rbargs):
     y_shift : np.ndarray
         Pitch-shifted audio
     '''
+
+    if rbargs is None:
+        rbargs = dict()
 
     rbargs.setdefault('--pitch', n_steps)
 
