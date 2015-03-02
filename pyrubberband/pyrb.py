@@ -70,7 +70,11 @@ def __rubberband(y, sr, **kwargs):
 
 
 def time_stretch(y, sr, rate, rbargs=None):
-    '''Apply a time stretch of `rate` to an audio file
+    '''Apply a time stretch of `rate` to an audio time series.
+
+    This uses the `tempo` form for rubberband, so the
+    higher the rate, the faster the playback.
+
 
     Parameters
     ----------
@@ -81,7 +85,7 @@ def time_stretch(y, sr, rate, rbargs=None):
         Sampling rate of `y`
 
     rate : float > 0
-        Desired playback rate.  Larger than 1 is faster, less than 1 is slower.
+        Desired playback rate.
 
     rbargs
         Additional keyword parameters for rubberband
@@ -100,13 +104,13 @@ def time_stretch(y, sr, rate, rbargs=None):
     if rbargs is None:
         rbargs = dict()
 
-    rbargs.setdefault('--time', 1./rate)
+    rbargs.setdefault('--tempo', rate)
 
     return __rubberband(y, sr, **rbargs)
 
 
 def pitch_shift(y, sr, n_steps, rbargs=None):
-    '''Apply a time stretch of `rate` to an audio file
+    '''Apply a pitch shift to an audio time series.
 
     Parameters
     ----------
