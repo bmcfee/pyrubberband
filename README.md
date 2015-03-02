@@ -1,5 +1,5 @@
 # pyrubberband
-A python wrapper for rubberband.
+A python wrapper for [rubberband](http://breakfastquay.com/rubberband/).
 
 For now, this just provides lightweight wrappers for pitch-shifting and time-stretching.
 
