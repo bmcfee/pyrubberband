@@ -19,8 +19,8 @@ def __rubberband(y, sr, **kwargs):
 
     Parameters
     ----------
-    y : np.ndarray
-        Audio time series
+    y : np.ndarray [shape=(n,) or (2, n)]
+        Audio time series, either mono or stereo
 
     sr : int > 0
         sampling rate of y
@@ -74,8 +74,8 @@ def time_stretch(y, sr, rate, rbargs=None):
 
     Parameters
     ----------
-    y : np.ndarray
-        Audio time series
+    y : np.ndarray [shape=(n,) or (2, n)]
+        Audio time series, either mono or stereo
 
     sr : int > 0
         Sampling rate of `y`
@@ -110,8 +110,8 @@ def pitch_shift(y, sr, n_steps, rbargs=None):
 
     Parameters
     ----------
-    y : np.ndarray
-        Audio time series
+    y : np.ndarray [shape=(n,) or (2, n)]
+        Audio time series, either mono or stereo
 
     sr : int > 0
         Sampling rate of `y`
