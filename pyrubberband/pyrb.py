@@ -38,8 +38,10 @@ def __rubberband(y, sr, **kwargs):
     assert sr > 0
 
     # Get the input and output tempfile
-    _, infile = tempfile.mkstemp(suffix='.wav')
-    _, outfile = tempfile.mkstemp(suffix='.wav')
+    fd, infile = tempfile.mkstemp(suffix='.wav')
+    os.close(fd)
+    fd, outfile = tempfile.mkstemp(suffix='.wav')
+    os.close(fd)
 
     # dump the audio
     librosa.output.write_wav(infile, y, sr)
