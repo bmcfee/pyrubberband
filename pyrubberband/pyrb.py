@@ -103,6 +103,9 @@ def time_stretch(y, sr, rate, rbargs=None):
     if rate < 0:
         raise ValueError('rate must be strictly positive')
 
+    if rate == 1.0:
+        return y
+
     if rbargs is None:
         rbargs = dict()
 
@@ -135,6 +138,9 @@ def pitch_shift(y, sr, n_steps, rbargs=None):
     y_shift : np.ndarray
         Pitch-shifted audio
     '''
+
+    if n_steps == 0:
+        return y
 
     if rbargs is None:
         rbargs = dict()
