@@ -48,7 +48,7 @@ def __rubberband(y, sr, **kwargs):
 
     try:
         # Execute rubberband
-        arguments = ['rubberband']
+        arguments = ['rubberband', '-q']
 
         for key, value in six.iteritems(kwargs):
             arguments.append(str(key))
