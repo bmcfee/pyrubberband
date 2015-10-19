@@ -100,7 +100,7 @@ def time_stretch(y, sr, rate, rbargs=None):
         Time-stretched audio
     '''
 
-    if rate < 0:
+    if rate <= 0:
         raise ValueError('rate must be strictly positive')
 
     if rate == 1.0:
