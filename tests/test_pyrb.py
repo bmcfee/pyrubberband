@@ -4,6 +4,8 @@
 import pyrubberband
 import numpy as np
 
+from nose.tools import raises
+
 def test_stretch():
 
     sr = 8000
@@ -17,3 +19,6 @@ def test_stretch():
 
     for rate in [0.5, 1.0, 2.0]:
         yield __test, rate
+
+    for bad_rate in [-1, -0.5, 0]:
+        yield raises(ValueError)(__test), bad_rate
