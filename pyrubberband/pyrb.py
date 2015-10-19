@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # CREATED:2015-03-02 11:36:15 by Brian McFee <brian.mcfee@nyu.edu>
-'''Command-line wrapper for rubberband'''
+'''Command-line wrapper for rubberband
+
+.. autosummary::
+    :toctree: generated/
+
+    time_stretch
+    pitch_shift
+'''
 
 
 import os
@@ -98,6 +105,11 @@ def time_stretch(y, sr, rate, rbargs=None):
     -------
     y_stretch : np.ndarray
         Time-stretched audio
+
+    Raises
+    ------
+    ValueError
+        if `rate <= 0`
     '''
 
     if rate <= 0:
