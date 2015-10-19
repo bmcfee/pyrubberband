@@ -1,8 +1,8 @@
 .. _api:
 
-.. module:: pyrbberband
+.. module:: pyrubberband
 
 Functions
 ---------
-
 .. automodule:: pyrb
+

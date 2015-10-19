@@ -15,7 +15,6 @@ by directly wrapping the C library instead.
 
 Example usage
 -------------
-
 .. code-block:: python
 
     >>> import librosa
@@ -23,11 +22,12 @@ Example usage
     >>> y, sr = librosa.load(librosa.util.example_audio_file())
     >>> # Play back at double speed
     >>> y_stretch = pyrb.time_stretch(y, sr, 2.0)
+    >>> # Play back two semi-tones higher
+    >>> y_shift = pyrb.pitch_shift(y, sr, 2)
     
 
 API Reference
 -------------
-
 .. toctree::
     :maxdepth: 3
     
@@ -37,12 +37,3 @@ Contribute
 ----------
 - `Issue Tracker <http://github.com/bmcfee/pyrubberband/issues>`_
 - `Source Code <http://github.com/bmcfee/pyrubberband>`_
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
