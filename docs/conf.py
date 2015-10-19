@@ -59,6 +59,17 @@ copyright = u'2015, Brian McFee'
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
+import sys
+
+from mock import MagicMock
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+            return Mock()
+
+MOCK_MODULES = ['numpy', 'librosa']
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 import imp
 PYRB = imp.load_source('pyrubberband.version', '../pyrubberband/version.py')
