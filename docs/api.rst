@@ -5,4 +5,4 @@
 Functions
 ---------
 
-.. automodule:: pyrubberband.pyrb
+.. automodule:: pyrb
