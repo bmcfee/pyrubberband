@@ -2,6 +2,7 @@
 [![Build Status](https://travis-ci.org/bmcfee/pyrubberband.svg)](https://travis-ci.org/bmcfee/pyrubberband)
 [![Coverage Status](https://coveralls.io/repos/bmcfee/pyrubberband/badge.svg?branch=testing&service=github)](https://coveralls.io/github/bmcfee/pyrubberband?branch=testing)
 [![GitHub license](https://img.shields.io/github/license/bmcfee/pyrubberband.svg)]()
+[![Documentation Status](https://readthedocs.org/projects/pyrubberband/badge/?version=latest)](http://pyrubberband.readthedocs.org/en/latest/?badge=latest)
 
 A python wrapper for [rubberband](http://breakfastquay.com/rubberband/).
 
