@@ -42,7 +42,6 @@ if [ ! -f "$HOME/env/miniconda.sh" ]; then
 
             source activate $ENV_NAME
 
-            pip install git+https://github.com/bmcfee/samplerate.git
             pip install librosa
             pip install python-coveralls
             
