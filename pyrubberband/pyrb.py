@@ -105,6 +105,11 @@ def time_stretch(y, sr, rate, rbargs=None):
     -------
     y_stretch : np.ndarray
         Time-stretched audio
+
+    Raises
+    ------
+    ValueError
+        if `rate <= 0`
     '''
 
     if rate <= 0:
