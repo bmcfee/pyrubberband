@@ -1,4 +1,5 @@
 # pyrubberband
+[![PyPI](https://img.shields.io/pypi/v/pyrubberband.svg)](https://pypi.python.org/pypi/pyrubberband)
 [![Build Status](https://travis-ci.org/bmcfee/pyrubberband.svg)](https://travis-ci.org/bmcfee/pyrubberband)
 [![Coverage Status](https://coveralls.io/repos/bmcfee/pyrubberband/badge.svg?branch=testing&service=github)](https://coveralls.io/github/bmcfee/pyrubberband?branch=testing)
 [![GitHub license](https://img.shields.io/github/license/bmcfee/pyrubberband.svg)]()
