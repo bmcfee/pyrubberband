@@ -12,14 +12,22 @@ For now, this just provides lightweight wrappers for pitch-shifting and time-str
 All processing is done via the command-line through files on disk.  In the future, this could be improved
 by directly wrapping the C library instead.
 
+Install Rubberband on OS X
+--------------------------
+
+```
+brew install https://gist.githubusercontent.com/faroit/b67c1708cdc1f9c4ddc9/raw/942bbedded22f05abab0d09b52383e7be4aee237/rubberband.rb
+```
+
 Example usage
 -------------
 
 ```python
 
->>> import librosa
+>>> import soundfile as sf
 >>> import pyrubberband as pyrb
->>> y, sr = librosa.load(librosa.util.example_audio_file())
+>>> # Read mono wav file
+>>> y, sr = sf.read("test.wav")
 >>> # Play back at double speed
 >>> y_stretch = pyrb.time_stretch(y, sr, 2.0)
 ```

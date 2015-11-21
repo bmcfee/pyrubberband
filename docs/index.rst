@@ -17,20 +17,20 @@ Example usage
 -------------
 .. code-block:: python
 
-    >>> import librosa
+    >>> import soundfile as sf
     >>> import pyrubberband as pyrb
-    >>> y, sr = librosa.load(librosa.util.example_audio_file())
+    >>> y, sr = sf.read("myfile.wav")
     >>> # Play back at double speed
     >>> y_stretch = pyrb.time_stretch(y, sr, 2.0)
     >>> # Play back two semi-tones higher
     >>> y_shift = pyrb.pitch_shift(y, sr, 2)
-    
+
 
 API Reference
 -------------
 .. toctree::
     :maxdepth: 3
-    
+
     api
 
 Contribute
