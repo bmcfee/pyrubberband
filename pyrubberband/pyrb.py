@@ -14,8 +14,8 @@ import os
 import six
 import subprocess
 import tempfile
-
-import librosa
+import numpy as np
+import soundfile as sf
 
 
 __all__ = ['time_stretch', 'pitch_shift']
@@ -26,8 +26,8 @@ def __rubberband(y, sr, **kwargs):
 
     Parameters
     ----------
-    y : np.ndarray [shape=(n,) or (2, n)]
-        Audio time series, either mono or stereo
+    y : np.ndarray [shape=(n,) or (n, c)]
+        Audio time series, either single or multichannel
 
     sr : int > 0
         sampling rate of y
@@ -37,7 +37,7 @@ def __rubberband(y, sr, **kwargs):
 
     Returns
     -------
-    y_mod : np.ndarray
+    y_mod : np.ndarray [shape=(n,) or (n, c)]
         `y` after rubberband transformation
 
     '''
@@ -51,7 +51,7 @@ def __rubberband(y, sr, **kwargs):
     os.close(fd)
 
     # dump the audio
-    librosa.output.write_wav(infile, y, sr)
+    sf.write(infile, y, sr)
 
     try:
         # Execute rubberband
@@ -66,8 +66,11 @@ def __rubberband(y, sr, **kwargs):
         subprocess.check_call(arguments)
 
         # Load the processed audio.
-        # Setting mono=False will ensure that the shape matches `y`
-        y_out, _ = librosa.load(outfile, sr=sr, mono=False)
+        y_out, _ = sf.read(outfile, always_2d=True)
+
+        # make sure that output dimensions matches input
+        if y.ndim == 1:
+            y_out = np.squeeze(y_out)
 
     finally:
         # Remove temp files
@@ -87,8 +90,8 @@ def time_stretch(y, sr, rate, rbargs=None):
 
     Parameters
     ----------
-    y : np.ndarray [shape=(n,) or (2, n)]
-        Audio time series, either mono or stereo
+    y : np.ndarray [shape=(n,) or (n, c)]
+        Audio time series, either single or multichannel
 
     sr : int > 0
         Sampling rate of `y`
@@ -131,8 +134,8 @@ def pitch_shift(y, sr, n_steps, rbargs=None):
 
     Parameters
     ----------
-    y : np.ndarray [shape=(n,) or (2, n)]
-        Audio time series, either mono or stereo
+    y : np.ndarray [shape=(n,) or (n, c)]
+        Audio time series, either single or multichannel
 
     sr : int > 0
         Sampling rate of `y`

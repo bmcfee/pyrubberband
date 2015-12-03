@@ -29,10 +29,20 @@ setup(
     keywords='audio music sound',
     license='ISC',
     install_requires=[
-        'librosa>=0.4',
         'six',
+        'pysoundfile>=0.8.0',
     ],
     extras_require={
-        'docs': ['numpydoc']
-    }
+        'docs': ['numpydoc'],
+        'tests': [
+            'pytest',
+            'pytest-cov',
+            'pytest-pep8'
+        ]
+    },
+    test_require=[
+        'pytest',
+        'pytest-cov',
+        'pytest-pep8'
+    ]
 )

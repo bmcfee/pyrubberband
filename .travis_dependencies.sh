@@ -11,7 +11,7 @@ conda_create ()
     conda update -q conda
     conda config --add channels pypi
     conda info -a
-    deps='pip numpy scipy pandas requests nose coverage numpydoc matplotlib sphinx scikit-learn seaborn'
+    deps='pip numpy scipy pandas requests pytest pytest-cov coverage numpydoc matplotlib sphinx scikit-learn seaborn'
 
     conda create -q -n $ENV_NAME "python=$1" $deps
 }
@@ -19,7 +19,7 @@ conda_create ()
 if [ ! -f "$HOME/env/miniconda.sh" ]; then
     mkdir -p $HOME/env
     pushd $HOME/env
-    
+
         # Download miniconda packages
         wget http://repo.continuum.io/miniconda/Miniconda-3.16.0-Linux-x86_64.sh -O miniconda.sh;
 
@@ -42,9 +42,9 @@ if [ ! -f "$HOME/env/miniconda.sh" ]; then
 
             source activate $ENV_NAME
 
-            pip install librosa
+            pip install pysoundfile
             pip install python-coveralls
-            
+
             source deactivate
 
             export PATH=$OLDPATH
