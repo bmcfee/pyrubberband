@@ -13,42 +13,29 @@ conda_create ()
     conda info -a
     deps='pip numpy scipy pandas requests pytest pytest-cov coverage numpydoc matplotlib sphinx scikit-learn seaborn'
 
-    conda create -q -n $ENV_NAME "python=$1" $deps
+    conda create -q -n $ENV_NAME "python=$TRAVIS_PYTHON_VERSION" $deps
 }
 
-if [ ! -f "$HOME/env/miniconda.sh" ]; then
+src="$HOME/env/miniconda$TRAVIS_PYTHON_VERSION"
+if [ ! -d "$src" ]; then
     mkdir -p $HOME/env
     pushd $HOME/env
 
         # Download miniconda packages
         wget http://repo.continuum.io/miniconda/Miniconda-3.16.0-Linux-x86_64.sh -O miniconda.sh;
 
-        # Install both environments
-        bash miniconda.sh -b -p $HOME/env/miniconda27
-        bash miniconda.sh -b -p $HOME/env/miniconda34
-        bash miniconda.sh -b -p $HOME/env/miniconda35
+        # Install environment
+        bash miniconda.sh -b -p $src
 
-        for version in 2.7 3.4 3.5; do
-            if [[ "$version" == "2.7" ]]; then
-                src="$HOME/env/miniconda27"
-            elif [[ "$version" == "3.4" ]]; then
-                src="$HOME/env/miniconda34"
-            else
-                src="$HOME/env/miniconda35"
-            fi
-            OLDPATH=$PATH
-            export PATH="$src/bin:$PATH"
-            conda_create $version
+        export PATH="$src/bin:$PATH"
+        conda_create 
 
-            source activate $ENV_NAME
+        source activate $ENV_NAME
 
-            pip install pysoundfile
-            pip install python-coveralls
+        pip install pysoundfile
+        pip install python-coveralls
 
-            source deactivate
-
-            export PATH=$OLDPATH
-        done
+        source deactivate
     popd
 else
     echo "Using cached dependencies"
