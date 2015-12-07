@@ -37,3 +37,11 @@ Contribute
 ----------
 - `Issue Tracker <http://github.com/bmcfee/pyrubberband/issues>`_
 - `Source Code <http://github.com/bmcfee/pyrubberband>`_
+
+Changelog
+=========
+.. toctree::
+    :maxdepth: 1
+
+    changes
+
