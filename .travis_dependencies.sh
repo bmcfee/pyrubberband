@@ -11,7 +11,7 @@ conda_create ()
     conda update -q conda
     conda config --add channels pypi
     conda info -a
-    deps='pip numpy scipy pandas requests pytest pytest-cov coverage numpydoc matplotlib sphinx scikit-learn seaborn'
+    deps='pip numpy scipy pandas requests pytest coverage numpydoc matplotlib sphinx scikit-learn seaborn'
 
     conda create -q -n $ENV_NAME "python=$TRAVIS_PYTHON_VERSION" $deps
 }
@@ -34,7 +34,7 @@ if [ ! -d "$src" ]; then
 
         pip install pysoundfile
         pip install python-coveralls
-
+        pip install pytest-cov
         source deactivate
     popd
 else
