@@ -61,14 +61,14 @@ copyright = u'2015, Brian McFee'
 #
 import sys
 
-from mock import MagicMock
+from mock import MagicMock as Mock
 
-class Mock(MagicMock):
-    @classmethod
-    def __getattr__(cls, name):
-            return Mock()
+#class Mock(MagicMock):
+#    @classmethod
+#    def __getattr__(cls, name):
+#            return Mock()
 
-MOCK_MODULES = ['numpy', 'librosa']
+MOCK_MODULES = ['numpy', 'soundfile']
 sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 import imp
