@@ -1,6 +1,11 @@
 Changes
 =======
 
+v0.2.1
+------
+
+  - Improved error handling when `rubberband` fails to execute.
+
 v0.2.0
 ------
 
