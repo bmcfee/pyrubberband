@@ -105,3 +105,17 @@ def test_pitch(sr, num_samples, freq, n_step):
     s_f = np.abs(np.fft.rfft(y_f))
 
     assert np.allclose(s_s / s_s[0], s_f / s_f[0], atol=1e-2)
+
+
+@pytest.mark.parametrize(
+    "cli",
+    [pytest.mark.xfail('rubberband-missing', raises=RuntimeError),
+     'rubberband'])
+def test_missing_cli(cli):
+    '''Simulate not having rubberband-cli installed and check for
+    the appropriate exception.
+    '''
+
+    pyrubberband.pyrb.__RUBBERBAND_UTIL = cli
+
+    pyrubberband.pitch_shift(np.random.randn(22050), 22050, 1)
