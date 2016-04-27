@@ -20,6 +20,8 @@ import soundfile as sf
 
 __all__ = ['time_stretch', 'pitch_shift']
 
+__RUBBERBAND_UTIL = 'rubberband'
+
 
 def __rubberband(y, sr, **kwargs):
     '''Execute rubberband
@@ -55,7 +57,7 @@ def __rubberband(y, sr, **kwargs):
 
     try:
         # Execute rubberband
-        arguments = ['rubberband', '-q']
+        arguments = [__RUBBERBAND_UTIL, '-q']
 
         for key, value in six.iteritems(kwargs):
             arguments.append(str(key))
@@ -72,11 +74,16 @@ def __rubberband(y, sr, **kwargs):
         if y.ndim == 1:
             y_out = np.squeeze(y_out)
 
+    except OSError as exc:
+        six.raise_from(RuntimeError('Failed to execute rubberband. '
+                                    'Please verify that rubberband-cli '
+                                    'is installed.'),
+                       exc)
+
     finally:
         # Remove temp files
         os.unlink(infile)
         os.unlink(outfile)
-        pass
 
     return y_out
 
