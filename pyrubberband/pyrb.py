@@ -22,6 +22,11 @@ __all__ = ['time_stretch', 'pitch_shift']
 
 __RUBBERBAND_UTIL = 'rubberband'
 
+if six.PY2:
+    DEVNULL = open(os.devnull, 'w')
+else:
+    DEVNULL = subprocess.DEVNULL
+
 
 def __rubberband(y, sr, **kwargs):
     '''Execute rubberband
@@ -65,9 +70,7 @@ def __rubberband(y, sr, **kwargs):
 
         arguments.extend([infile, outfile])
 
-        subprocess.check_call(arguments,
-                              stdout=subprocess.DEVNULL,
-                              stderr=subprocess.DEVNULL)
+        subprocess.check_call(arguments, stdout=DEVNULL, stderr=DEVNULL)
 
         # Load the processed audio.
         y_out, _ = sf.read(outfile, always_2d=True)
