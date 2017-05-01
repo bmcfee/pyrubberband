@@ -1,6 +1,10 @@
 Changes
 =======
 
+v0.2.2
+------
+  - Suppress console logging from `rubberband`
+
 v0.2.1
 ------
 
