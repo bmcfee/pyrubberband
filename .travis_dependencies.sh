@@ -32,6 +32,8 @@ if [ ! -d "$src" ]; then
 
         source activate $ENV_NAME
 
+        conda install -c conda-forge ffmpeg
+
         pip install pysoundfile
         pip install python-coveralls
         pip install pytest-cov
