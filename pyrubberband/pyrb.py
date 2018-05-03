@@ -178,7 +178,7 @@ def pitch_shift(y, sr, n_steps, rbargs=None):
 
     rbargs.setdefault('--pitch', n_steps)
 
-     # long window hack for low-sr signals
+    # long window hack for low-sr signals
     if sr <= 210:
         rbargs.setdefault('-q', '--window-long')
 
