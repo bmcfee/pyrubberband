@@ -19,7 +19,7 @@ def length(request):
     return request.param
 
 
-@pytest.fixture(params=([16000, 44100, 48000]))
+@pytest.fixture(params=([125, 16000, 44100, 48000]))
 def sr(request):
     return request.param
 
