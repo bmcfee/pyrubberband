@@ -138,6 +138,10 @@ def time_stretch(y, sr, rate, rbargs=None):
 
     rbargs.setdefault('--tempo', rate)
 
+    # long window hack for low-sr signals
+    if sr <= 210:
+        rbargs.setdefault('-q', '--window-long')
+
     return __rubberband(y, sr, **rbargs)
 
 
@@ -173,5 +177,9 @@ def pitch_shift(y, sr, n_steps, rbargs=None):
         rbargs = dict()
 
     rbargs.setdefault('--pitch', n_steps)
+
+     # long window hack for low-sr signals
+    if sr <= 210:
+        rbargs.setdefault('-q', '--window-long')
 
     return __rubberband(y, sr, **rbargs)
