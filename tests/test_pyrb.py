@@ -107,6 +107,24 @@ def test_pitch(sr, num_samples, freq, n_step):
     assert np.allclose(s_s / s_s[0], s_f / s_f[0], atol=1e-2)
 
 
+def test_timemap_stretch(sr, num_samples, freq, time_map):
+
+    y = np.cos(2 * np.pi * freq * np.arange(num_samples)/sr)
+    # Apply time strech
+    y_s = pyrubberband.timemap_stretch(y, sr, time_map)
+
+    assert len(y) * time_map[-1][1] == len(y_s) * time_map[-1][0]
+
+    # Make sure the the stretched audio signal has the same note as the original
+    fft = np.abs(np.fft.fft(y))
+    fft = fft[:len(fft)//2]
+
+    fft_s = np.abs(np.fft.fft(y_s))
+    fft_s = fft_s[:len(fft_s)//2]
+
+    assert np.argmax(fft) / len(fft) == np.argmax(fft_s) / len(fft_s)
+
+
 @pytest.mark.parametrize(
     "cli",
     [pytest.mark.xfail('rubberband-missing', raises=RuntimeError),

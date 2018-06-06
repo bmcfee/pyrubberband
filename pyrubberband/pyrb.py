@@ -141,6 +141,65 @@ def time_stretch(y, sr, rate, rbargs=None):
     return __rubberband(y, sr, **rbargs)
 
 
+def timemap_stretch(y, sr, time_map, rbargs=None):
+    '''Apply a timemap stretch to an audio time series.
+
+    This uses the `time` and `timemap` form for rubberband.
+
+
+    Parameters
+    ----------
+    y : np.ndarray [shape=(n,) or (n, c)]
+        Audio time series, either single or multichannel
+
+    sr : int > 0
+        Sampling rate of `y`
+
+    time_map : list
+        Each element is a tuple `t` of length 2 which correspond to the input frame and desired output frame.
+        If t[1] < t[0] the track will be sped up in this area.
+        time_map[-1] must correspond to the lengths of the input audio and output audio.
+
+    rbargs
+        Additional keyword parameters for rubberband
+
+        See `rubberband -h` for details.
+
+    Returns
+    -------
+    y_stretch : np.ndarray
+        Time-stretched audio
+
+    Raises
+    ------
+    ValueError
+        if `rate <= 0`
+    '''
+
+    if rbargs is None:
+        rbargs = dict()
+        
+    time_stretch = time_map[-1][1]/time_map[-1][0]
+
+    rbargs.setdefault('--time', time_stretch)
+
+    
+    fs, stretch_file_name = tempfile.mkstemp(suffix='.txt')
+    os.close(fs)
+
+    stretch_file = open(stretch_file_name, 'w')
+    for t in time_map:
+        stretch_file.write("%d %d\n" %(t[0], t[1]))
+    stretch_file.close()    
+    
+    rbargs.setdefault('--timemap', stretch_file_name)
+    
+    y_stretch = __rubberband(y, sr, **rbargs)
+    os.unlink(stretch_file_name)
+    
+    return y_stretch
+
+
 def pitch_shift(y, sr, n_steps, rbargs=None):
     '''Apply a pitch shift to an audio time series.
 
