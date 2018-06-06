@@ -144,8 +144,10 @@ def time_stretch(y, sr, rate, rbargs=None):
 def timemap_stretch(y, sr, time_map, rbargs=None):
     '''Apply a timemap stretch to an audio time series.
 
-    This uses the `time` and `timemap` form for rubberband.
+    A timemap stretch allows non-linear time-stretching by mapping source to
+    target sample frame numbers for fixed time points within the audio data.
 
+    This uses the `time` and `timemap` form for rubberband.
 
     Parameters
     ----------
@@ -156,11 +158,13 @@ def timemap_stretch(y, sr, time_map, rbargs=None):
         Sampling rate of `y`
 
     time_map : list
-        Each element is a tuple `t` of length 2 which correspond to the input
-         frame and desired output frame.
-        If t[1] < t[0] the track will be sped up in this area.
-        time_map[-1] must correspond to the lengths of the input audio and
-         output audio.
+        Each element is a tuple `t` of length 2 which corresponds to the 
+        source sample position and target sample position.
+
+        If `t[1] < t[0]` the track will be sped up in this area.
+
+        `time_map[-1]` must correspond to the lengths of the source audio and
+        target audio.   
 
     rbargs
         Additional keyword parameters for rubberband
@@ -175,28 +179,33 @@ def timemap_stretch(y, sr, time_map, rbargs=None):
     Raises
     ------
     ValueError
-        if `rate <= 0`
+        if `time_map` is not monotonic
     '''
 
     if rbargs is None:
         rbargs = dict()
 
-    time_stretch = time_map[-1][1] * 1.0 / time_map[-1][0]
+    is_monotonic = all(time_map[i][0] <= time_map[i+1][0] and 
+                       time_map[i][1] <= time_map[i+1][1] 
+                       for i in range(len(time_map)-1))
+    if not is_monotonic:
+        raise ValueError('time_map is not monotonic')
 
+    if time_map[-1][0] != len(y):
+        raise ValueError('time_map[-1] should correspond to the last sample')
+
+    time_stretch = time_map[-1][1] * 1.0 / time_map[-1][0]
     rbargs.setdefault('--time', time_stretch)
 
-    fs, stretch_file_name = tempfile.mkstemp(suffix='.txt')
-    os.close(fs)
-
-    stretch_file = open(stretch_file_name, 'w')
+    stretch_file = tempfile.NamedTemporaryFile(mode='w', suffix='.txt',
+                                               delete=False)
     for t in time_map:
-        stretch_file.write("%d %d\n" % (t[0], t[1]))
+        stretch_file.write('{:0} {:1}\n'.format(t[0], t[1])) 
     stretch_file.close()
 
-    rbargs.setdefault('--timemap', stretch_file_name)
-
+    rbargs.setdefault('--timemap', stretch_file.name)
     y_stretch = __rubberband(y, sr, **rbargs)
-    os.unlink(stretch_file_name)
+    os.unlink(stretch_file.name)
 
     return y_stretch
 

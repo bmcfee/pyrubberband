@@ -121,18 +121,14 @@ def test_timemap_stretch(sr, num_samples, freq, time_map):
     # Apply time strech
     y_s = pyrubberband.timemap_stretch(y, sr, time_map)
 
-    assert len(y) * time_map[-1][1] == len(y_s) * time_map[-1][0]
+    assert np.isclose(len(y_s), time_map[-1][1], rtol=1e-3)
 
-    # Make sure the stretched audio signal has the same note as the original
-    fft = np.abs(np.fft.fft(y))
-    fft = fft[:len(fft)//2]
+    # Make sure that the peak frequency of `y_s` is `freq`
+    n = len(y_s)
+    fft = np.abs(np.fft.fft(y_s))
+    peak_freq = np.argmax(fft[:n//2]) * sr / n
 
-    fft_s = np.abs(np.fft.fft(y_s))
-    fft_s = fft_s[:len(fft_s)//2]
-
-    assert np.isclose(np.argmax(fft) / len(fft),
-                      np.argmax(fft_s) / len(fft_s),
-                      rtol=1e-1)
+    assert np.isclose(peak_freq, freq, rtol=1e-1)
 
 
 @pytest.mark.parametrize(
