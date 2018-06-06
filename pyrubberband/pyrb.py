@@ -189,11 +189,9 @@ def timemap_stretch(y, sr, time_map, rbargs=None):
 
     is_positive = all(time_map[i][0] >= 0 and time_map[i][1] >= 0
                       for i in range(len(time_map)))
-    
     is_monotonic = all(time_map[i][0] <= time_map[i+1][0] and
                        time_map[i][1] <= time_map[i+1][1]
                        for i in range(len(time_map)-1))
-    
     if not is_positive:
         raise ValueError('time_map should be non-negative')
 
