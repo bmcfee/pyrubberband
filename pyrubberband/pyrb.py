@@ -158,13 +158,13 @@ def timemap_stretch(y, sr, time_map, rbargs=None):
         Sampling rate of `y`
 
     time_map : list
-        Each element is a tuple `t` of length 2 which corresponds to the 
+        Each element is a tuple `t` of length 2 which corresponds to the
         source sample position and target sample position.
 
         If `t[1] < t[0]` the track will be sped up in this area.
 
         `time_map[-1]` must correspond to the lengths of the source audio and
-        target audio.   
+        target audio.
 
     rbargs
         Additional keyword parameters for rubberband
@@ -185,8 +185,8 @@ def timemap_stretch(y, sr, time_map, rbargs=None):
     if rbargs is None:
         rbargs = dict()
 
-    is_monotonic = all(time_map[i][0] <= time_map[i+1][0] and 
-                       time_map[i][1] <= time_map[i+1][1] 
+    is_monotonic = all(time_map[i][0] <= time_map[i+1][0] and
+                       time_map[i][1] <= time_map[i+1][1]
                        for i in range(len(time_map)-1))
     if not is_monotonic:
         raise ValueError('time_map is not monotonic')
@@ -200,7 +200,7 @@ def timemap_stretch(y, sr, time_map, rbargs=None):
     stretch_file = tempfile.NamedTemporaryFile(mode='w', suffix='.txt',
                                                delete=False)
     for t in time_map:
-        stretch_file.write('{:0} {:1}\n'.format(t[0], t[1])) 
+        stretch_file.write('{:0} {:1}\n'.format(t[0], t[1]))
     stretch_file.close()
 
     rbargs.setdefault('--timemap', stretch_file.name)
