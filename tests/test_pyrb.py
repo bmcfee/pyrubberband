@@ -130,7 +130,9 @@ def test_timemap_stretch(sr, num_samples, freq, time_map):
     fft_s = np.abs(np.fft.fft(y_s))
     fft_s = fft_s[:len(fft_s)//2]
 
-    assert np.argmax(fft) / len(fft) == np.argmax(fft_s) / len(fft_s)
+    assert np.isclose(np.argmax(fft) / len(fft),
+                      np.argmax(fft_s) / len(fft_s),
+                      rtol=1e-3)
 
 
 @pytest.mark.parametrize(
