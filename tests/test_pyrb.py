@@ -43,6 +43,9 @@ def n_step(request):
 def channels(request):
     return request.param
 
+@pytest.fixture
+def time_map(num_samples, request):
+    return [(0, 0), (num_samples//4, num_samples//4), ((3*num_samples)//4, num_samples//2), (num_samples, (3*num_samples)//4)]
 
 @pytest.fixture
 def random_signal(channels, num_samples):
@@ -115,7 +118,7 @@ def test_timemap_stretch(sr, num_samples, freq, time_map):
 
     assert len(y) * time_map[-1][1] == len(y_s) * time_map[-1][0]
 
-    # Make sure the the stretched audio signal has the same note as the original
+    # Make sure the stretched audio signal has the same note as the original
     fft = np.abs(np.fft.fft(y))
     fft = fft[:len(fft)//2]
 
