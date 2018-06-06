@@ -43,9 +43,14 @@ def n_step(request):
 def channels(request):
     return request.param
 
+
 @pytest.fixture
 def time_map(num_samples, request):
-    return [(0, 0), (num_samples//4, num_samples//4), ((3*num_samples)//4, num_samples//2), (num_samples, (3*num_samples)//4)]
+    return [(0, 0), 
+    (num_samples//4, num_samples//4), 
+    ((3*num_samples)//4, num_samples//2), 
+    (num_samples, (3*num_samples)//4)]
+
 
 @pytest.fixture
 def random_signal(channels, num_samples):

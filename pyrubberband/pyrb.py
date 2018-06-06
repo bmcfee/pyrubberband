@@ -18,7 +18,7 @@ import numpy as np
 import soundfile as sf
 
 
-__all__ = ['time_stretch', 'pitch_shift']
+__all__ = ['time_stretch', 'pitch_shift', 'timemap_stretch']
 
 __RUBBERBAND_UTIL = 'rubberband'
 
