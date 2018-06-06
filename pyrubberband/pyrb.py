@@ -181,7 +181,7 @@ def timemap_stretch(y, sr, time_map, rbargs=None):
     if rbargs is None:
         rbargs = dict()
 
-    time_stretch = time_map[-1][1] * 1.0 /time_map[-1][0]
+    time_stretch = time_map[-1][1] * 1.0 / time_map[-1][0]
 
     rbargs.setdefault('--time', time_stretch)
 
