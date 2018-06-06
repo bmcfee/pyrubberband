@@ -180,15 +180,23 @@ def timemap_stretch(y, sr, time_map, rbargs=None):
     ------
     ValueError
         if `time_map` is not monotonic
+        if `time_map` is not non-negative
         if `time_map[-1][0]` is not the input audio length
     '''
 
     if rbargs is None:
         rbargs = dict()
 
+    is_positive = all(time_map[i][0] >= 0 and time_map[i][1] >= 0
+                      for i in range(len(time_map)))
+    
     is_monotonic = all(time_map[i][0] <= time_map[i+1][0] and
                        time_map[i][1] <= time_map[i+1][1]
                        for i in range(len(time_map)-1))
+    
+    if not is_positive:
+        raise ValueError('time_map should be non-negative')
+
     if not is_monotonic:
         raise ValueError('time_map is not monotonic')
 

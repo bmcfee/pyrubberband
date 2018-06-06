@@ -115,6 +115,32 @@ def test_pitch(sr, num_samples, freq, n_step):
     assert np.allclose(s_s / s_s[0], s_f / s_f[0], atol=1e-2)
 
 
+@pytest.mark.parametrize(
+    "time_map",
+    [
+        pytest.mark.xfail([(0, 0), (16000, -8000)], raises=ValueError),
+        pytest.mark.xfail([(0, 0), (-16000, 8000)], raises=ValueError),
+        pytest.mark.xfail([(0, 0), (12000, 8000)], raises=ValueError),
+        pytest.mark.xfail([(0, 0), (8000, 6000), (4000, 4000),
+                          (16000, 12000)], raises=ValueError)
+    ]
+)
+def test_fails_timemap_stretch(time_map):
+    sr, num_samples, freq = 16000, 16000, 500
+    y = np.cos(2 * np.pi * freq * np.arange(num_samples)/sr)
+    # Apply time strech
+    y_s = pyrubberband.timemap_stretch(y, sr, time_map)
+
+    assert np.isclose(len(y_s), time_map[-1][1], rtol=1e-3)
+
+    # Make sure that the peak frequency of `y_s` is `freq`
+    n = len(y_s)
+    fft = np.abs(np.fft.fft(y_s))
+    peak_freq = np.argmax(fft[:n//2]) * sr / n
+
+    assert np.isclose(peak_freq, freq, rtol=1e-1)
+
+
 def test_timemap_stretch(sr, num_samples, freq, time_map):
 
     y = np.cos(2 * np.pi * freq * np.arange(num_samples)/sr)
