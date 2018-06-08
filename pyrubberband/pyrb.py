@@ -206,13 +206,19 @@ def timemap_stretch(y, sr, time_map, rbargs=None):
 
     stretch_file = tempfile.NamedTemporaryFile(mode='w', suffix='.txt',
                                                delete=False)
-    for t in time_map:
-        stretch_file.write('{:0} {:1}\n'.format(t[0], t[1]))
-    stretch_file.close()
+    try:
+        for t in time_map:
+            stretch_file.write('{:0} {:1}\n'.format(t[0], t[1]))
+        stretch_file.close()
 
-    rbargs.setdefault('--timemap', stretch_file.name)
-    y_stretch = __rubberband(y, sr, **rbargs)
-    os.unlink(stretch_file.name)
+        rbargs.setdefault('--timemap', stretch_file.name)
+        y_stretch = __rubberband(y, sr, **rbargs)
+    except:
+        print(sys.exc_info()[0])
+        raise
+    finally:
+        # Remove temp file
+        os.unlink(stretch_file.name)
 
     return y_stretch
 
