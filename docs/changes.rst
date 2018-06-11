@@ -3,7 +3,7 @@ Changes
 
 v0.3.0
 ------
-  - Added `timemap_stretch` for variable-rate warping. *Marc Sarfati*
+  - Added `timemap_stretch` for variable-rate warping. (`PR #15 <https://github.com/bmcfee/pyrubberband/pull/15>`_) *Marc Sarfati*
 
 v0.2.2
 ------

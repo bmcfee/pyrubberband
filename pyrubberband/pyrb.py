@@ -5,15 +5,16 @@
 .. autosummary::
     :toctree: generated/
 
-    time_stretch
     pitch_shift
+    time_stretch
+    timemap_stretch
 '''
 
 
 import os
-import six
 import subprocess
 import tempfile
+import six
 import numpy as np
 import soundfile as sf
 
