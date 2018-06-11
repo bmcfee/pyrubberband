@@ -213,9 +213,6 @@ def timemap_stretch(y, sr, time_map, rbargs=None):
 
         rbargs.setdefault('--timemap', stretch_file.name)
         y_stretch = __rubberband(y, sr, **rbargs)
-    except:
-        print(sys.exc_info()[0])
-        raise
     finally:
         # Remove temp file
         os.unlink(stretch_file.name)
