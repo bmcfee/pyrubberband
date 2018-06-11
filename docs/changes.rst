@@ -1,6 +1,10 @@
 Changes
 =======
 
+v0.3.0
+------
+  - Added `timemap_stretch` for variable-rate warping. *Marc Sarfati*
+
 v0.2.2
 ------
   - Suppress console logging from `rubberband`
