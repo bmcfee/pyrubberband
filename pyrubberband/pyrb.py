@@ -258,7 +258,8 @@ def pitch_shift(y, sr, n_steps, rbargs=None):
 
 
 def frequency_multiply(y, sr, X, rbargs=None):
-    '''Multiply the frequencies inside an audio time series. The equivalent of the -f option.
+    '''Multiply the frequencies inside an audio time series.
+    The equivalent of the -f option.
     Parameters
     ----------
     y : np.ndarray [shape=(n,) or (n, c)]
@@ -293,7 +294,8 @@ def frequency_multiply(y, sr, X, rbargs=None):
 
 
 def change_tempo(y, sr, X, Y, rbargs=None):
-    '''Multiply the frequencies inside an audio time series. The equivalent of the -f option.
+    '''Multiply the frequencies inside an audio time series.
+    The equivalent of the -f option.
     Parameters
     ----------
     y : np.ndarray [shape=(n,) or (n, c)]
