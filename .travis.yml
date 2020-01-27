@@ -15,9 +15,15 @@ notifications:
   email: false
 
 python:
-    - "2.7"
-    - "3.4"
-    - "3.5"
+    - "3.6"
+
+matrix:
+    include:
+        - python: 3.6
+          dist: xenial
+        - python: 3.7
+          dist: xenial
+
 
 before_install:
     - bash .travis_dependencies.sh
@@ -31,7 +37,7 @@ install:
 
 script:
     - python --version
-    - py.test
+    - pytest
 
 after_success:
     - coveralls

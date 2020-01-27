@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
-import pyrubberband
 import numpy as np
 import pytest
+
+from contextlib2 import nullcontext as dnr
+
+import pyrubberband
 
 
 def synth(sr, num_samples, freq):
@@ -62,17 +65,17 @@ def random_signal(channels, num_samples):
 
 
 @pytest.mark.parametrize(
-    "rate",
+    "rate,ctx",
     [
-        0.5,
-        1.0,
-        2.0,
-        pytest.mark.xfail(-1, raises=ValueError),
-        pytest.mark.xfail(-0.5, raises=ValueError),
-        pytest.mark.xfail(0, raises=ValueError)
+        (0.5, dnr()),
+        (1.0, dnr()),
+        (2.0, dnr()),
+        (-1, pytest.raises(ValueError)),
+        (-0.5, pytest.raises(ValueError)),
+        (0, pytest.raises(ValueError)),
     ]
 )
-def test_stretch(sr, random_signal, num_samples, rate):
+def test_stretch(sr, random_signal, num_samples, rate, ctx):
     '''Test shape of random signals with stretching
     factor of various rate.
     '''
@@ -80,18 +83,19 @@ def test_stretch(sr, random_signal, num_samples, rate):
     # input signal of shape (channels, sr * duration)
     y = random_signal
 
-    y_s = pyrubberband.time_stretch(y, sr, rate=rate)
+    with ctx:
+        y_s = pyrubberband.time_stretch(y, sr, rate=rate)
 
-    # test if output dimension matches input dimension
-    assert y_s.ndim == y.ndim
+        # test if output dimension matches input dimension
+        assert y_s.ndim == y.ndim
 
-    # check shape
-    if y.ndim > 1:
-        # check number of channels
-        assert y.shape[1] == y_s.shape[1]
-    else:
-        # check num_samples (stretching factor)
-        assert np.allclose(y_s.shape[0] * rate, y.shape[0])
+        # check shape
+        if y.ndim > 1:
+            # check number of channels
+            assert y.shape[1] == y_s.shape[1]
+        else:
+            # check num_samples (stretching factor)
+            assert np.allclose(y_s.shape[0] * rate, y.shape[0])
 
 
 def test_pitch(sr, num_samples, freq, n_step):
@@ -116,29 +120,31 @@ def test_pitch(sr, num_samples, freq, n_step):
 
 
 @pytest.mark.parametrize(
-    "time_map",
+    "time_map,ctx",
     [
-        pytest.mark.xfail([(0, 0), (16000, -8000)], raises=ValueError),
-        pytest.mark.xfail([(0, 0), (-16000, 8000)], raises=ValueError),
-        pytest.mark.xfail([(0, 0), (12000, 8000)], raises=ValueError),
-        pytest.mark.xfail([(0, 0), (8000, 6000), (4000, 4000),
-                          (16000, 12000)], raises=ValueError)
+        ([(0, 0), (16000, -8000)], pytest.raises(ValueError)),
+        ([(0, 0), (-16000, 8000)], pytest.raises(ValueError)),
+        ([(0, 0), (12000, 8000)], pytest.raises(ValueError)),
+        ([(0, 0), (8000, 6000), (4000, 4000), (16000, 12000)],
+         pytest.raises(ValueError))
     ]
 )
-def test_fails_timemap_stretch(time_map):
+def test_fails_timemap_stretch(time_map, ctx):
     sr, num_samples, freq = 16000, 16000, 500
     y = np.cos(2 * np.pi * freq * np.arange(num_samples)/sr)
-    # Apply time strech
-    y_s = pyrubberband.timemap_stretch(y, sr, time_map)
 
-    assert np.isclose(len(y_s), time_map[-1][1], rtol=1e-3)
+    with ctx:
+        # Apply time strech
+        y_s = pyrubberband.timemap_stretch(y, sr, time_map)
 
-    # Make sure that the peak frequency of `y_s` is `freq`
-    n = len(y_s)
-    fft = np.abs(np.fft.fft(y_s))
-    peak_freq = np.argmax(fft[:n//2]) * sr / n
+        assert np.isclose(len(y_s), time_map[-1][1], rtol=1e-3)
 
-    assert np.isclose(peak_freq, freq, rtol=1e-1)
+        # Make sure that the peak frequency of `y_s` is `freq`
+        n = len(y_s)
+        fft = np.abs(np.fft.fft(y_s))
+        peak_freq = np.argmax(fft[:n//2]) * sr / n
+
+        assert np.isclose(peak_freq, freq, rtol=1e-1)
 
 
 def test_timemap_stretch(sr, num_samples, freq, time_map):
@@ -158,14 +164,14 @@ def test_timemap_stretch(sr, num_samples, freq, time_map):
 
 
 @pytest.mark.parametrize(
-    "cli",
-    [pytest.mark.xfail('rubberband-missing', raises=RuntimeError),
-     'rubberband'])
-def test_missing_cli(cli):
+    "cli,ctx",
+    [('rubberband-missing', pytest.raises(RuntimeError)),
+     ('rubberband', dnr())])
+def test_missing_cli(cli, ctx):
     '''Simulate not having rubberband-cli installed and check for
     the appropriate exception.
     '''
 
-    pyrubberband.pyrb.__RUBBERBAND_UTIL = cli
-
-    pyrubberband.pitch_shift(np.random.randn(22050), 22050, 1)
+    with ctx:
+        pyrubberband.pyrb.__RUBBERBAND_UTIL = cli
+        pyrubberband.pitch_shift(np.random.randn(22050), 22050, 1)
