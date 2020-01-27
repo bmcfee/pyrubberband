@@ -20,11 +20,10 @@ setup(
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "Topic :: Multimedia :: Sound/Audio :: Analysis",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.4",
-        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
     ],
     keywords='audio music sound',
     license='ISC',
@@ -37,12 +36,14 @@ setup(
         'tests': [
             'pytest',
             'pytest-cov',
-            'pytest-pep8'
+            'pytest-pep8',
+            'contextlib2',
         ]
     },
     test_require=[
         'pytest',
         'pytest-cov',
-        'pytest-pep8'
+        'pytest-pep8',
+        'contextlib2',
     ]
 )
