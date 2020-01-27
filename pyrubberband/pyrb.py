@@ -295,7 +295,7 @@ def frequency_multiply(y, sr, X, rbargs=None):
 
 def change_tempo(y, sr, X, Y, rbargs=None):
     '''Multiply the frequencies inside an audio time series.
-    The equivalent of the -f option.
+    The equivalent of the --tempo <X>:<Y> option.
     Parameters
     ----------
     y : np.ndarray [shape=(n,) or (n, c)]
