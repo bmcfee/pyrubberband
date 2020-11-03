@@ -29,7 +29,7 @@ setup(
     license='ISC',
     install_requires=[
         'six',
-        'pysoundfile>=0.8.0',
+        'soundfile>=0.8.0',
     ],
     extras_require={
         'docs': ['numpydoc'],
