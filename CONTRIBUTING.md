@@ -52,9 +52,8 @@ tools:
 
 -  Code with good test coverage (at least 99%), check with:
 
-          $ pip install pytest pytest-cov pytest-faulthandler
-          $ python setup.py build_ext -i
-          $ py.test --cov-report term-missing --cov pyrubberband
+          $ pip install -e .[tests]
+          $ pytest
 
 Documentation
 -------------
