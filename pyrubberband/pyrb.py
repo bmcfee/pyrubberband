@@ -67,7 +67,8 @@ def __rubberband(y, sr, **kwargs):
 
         for key, value in six.iteritems(kwargs):
             arguments.append(str(key))
-            arguments.append(str(value))
+            if len(str(value).strip()):
+                arguments.append(str(value))
 
         arguments.extend([infile, outfile])
 
