@@ -24,26 +24,26 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     keywords='audio music sound',
     license='ISC',
     install_requires=[
+        'numpy',
         'six',
-        'pysoundfile>=0.8.0',
+        'soundfile>=0.8.0',
     ],
     extras_require={
         'docs': ['numpydoc'],
         'tests': [
             'pytest',
             'pytest-cov',
-            'pytest-pep8',
             'contextlib2',
         ]
     },
     test_require=[
         'pytest',
         'pytest-cov',
-        'pytest-pep8',
         'contextlib2',
     ]
 )
