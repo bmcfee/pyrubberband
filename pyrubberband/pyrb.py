@@ -113,9 +113,11 @@ def time_stretch(y, sr, rate, rbargs=None):
     rate : float > 0
         Desired playback rate.
 
-    rbargs
+    rbargs : {key:value, key:value}
         Additional keyword parameters for rubberband
-
+        Accepts a dictionary of key:value pairs supported by `rubberband`.
+        type(key and value) == str()
+        For single valued `rbargs`, pass empty string for `value`.
         See `rubberband -h` for details.
 
     Returns
@@ -168,9 +170,11 @@ def timemap_stretch(y, sr, time_map, rbargs=None):
         `time_map[-1]` must correspond to the lengths of the source audio and
         target audio.
 
-    rbargs
+    rbargs : {key:value, key:value}
         Additional keyword parameters for rubberband
-
+        Accepts a dictionary of key:value pairs supported by `rubberband`.
+        type(key and value) == str()
+        For single valued `rbargs`, pass empty string for `value`.
         See `rubberband -h` for details.
 
     Returns
@@ -236,9 +240,11 @@ def pitch_shift(y, sr, n_steps, rbargs=None):
     n_steps : float
         Shift by `n_steps` semitones.
 
-    rbargs
+    rbargs : {key:value, key:value}
         Additional keyword parameters for rubberband
-
+        Accepts a dictionary of key:value pairs supported by `rubberband`.
+        type(key and value) == str()
+        For single valued `rbargs`, pass empty string for `value`.
         See `rubberband -h` for details.
 
     Returns

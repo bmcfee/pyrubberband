@@ -64,18 +64,28 @@ def random_signal(channels, num_samples):
     return np.random.random(shape)
 
 
+@pytest.fixture(params=[{'-c': '5'}, {'--realtime': '', '--pitch-hq': ''},
+                        {'--no-lamination': ''}, {'--formant': '', '--no-transients': ''}])
+def unit_pitch_rbargs(request):
+    return request.param
+
+
 @pytest.mark.parametrize(
-    "rate,ctx",
+    "rate,unit_stretch_rbargs,ctx",
     [
-        (0.5, dnr()),
-        (1.0, dnr()),
-        (2.0, dnr()),
-        (-1, pytest.raises(ValueError)),
-        (-0.5, pytest.raises(ValueError)),
-        (0, pytest.raises(ValueError)),
+        (0.5, {'-c': '0', '--formant': ''}, dnr()),
+        (0.5, {'-c': '5'}, dnr()),
+        (0.5, {}, dnr()),
+        (1.0, {'--loose': ''}, dnr()),
+        (1.0, {'--no-transients': ''}, dnr()),
+        (2.0, {'--no-lamination': '', '--no-transients': '', '--window-long': ''}, dnr()),
+        (-1, {'-c': '5'}, pytest.raises(ValueError)),
+        (-1, {'--no-lamination': '', '--no-transients': '', '--window-long': ''}, pytest.raises(ValueError)),
+        (-0.5, {}, pytest.raises(ValueError)),
+        (0, {}, pytest.raises(ValueError)),
     ]
 )
-def test_stretch(sr, random_signal, num_samples, rate, ctx):
+def test_stretch(sr, random_signal, num_samples, rate, ctx, unit_stretch_rbargs):
     '''Test shape of random signals with stretching
     factor of various rate.
     '''
@@ -84,7 +94,7 @@ def test_stretch(sr, random_signal, num_samples, rate, ctx):
     y = random_signal
 
     with ctx:
-        y_s = pyrubberband.time_stretch(y, sr, rate=rate)
+        y_s = pyrubberband.time_stretch(y, sr, rate=rate, rbargs=unit_stretch_rbargs)
 
         # test if output dimension matches input dimension
         assert y_s.ndim == y.ndim
@@ -98,11 +108,10 @@ def test_stretch(sr, random_signal, num_samples, rate, ctx):
             assert np.allclose(y_s.shape[0] * rate, y.shape[0])
 
 
-def test_pitch(sr, num_samples, freq, n_step):
-
+def test_pitch(sr, num_samples, freq, n_step, unit_pitch_rbargs):
     y = synth(sr, num_samples, freq)
 
-    y_s = pyrubberband.pitch_shift(y, sr, n_step)
+    y_s = pyrubberband.pitch_shift(y, sr, n_step, rbargs=unit_pitch_rbargs)
 
     # Make sure we have the same duration
     assert np.allclose(len(y), len(y_s))
