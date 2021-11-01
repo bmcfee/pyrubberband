@@ -74,7 +74,7 @@ def __rubberband(y, sr, **kwargs):
         subprocess.check_call(arguments, stdout=DEVNULL, stderr=DEVNULL)
 
         # Load the processed audio.
-        y_out, _ = sf.read(outfile, always_2d=True)
+        y_out, _ = sf.read(outfile, always_2d=True, dtype=y.dtype)
 
         # make sure that output dimensions matches input
         if y.ndim == 1:
