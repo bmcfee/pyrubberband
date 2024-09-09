@@ -31,7 +31,7 @@ setup(
     install_requires=[
         'numpy',
         'six',
-        'soundfile>=0.8.0',
+        'soundfile>=0.12.1',
     ],
     extras_require={
         'docs': ['numpydoc'],

@@ -34,7 +34,7 @@ if [ ! -d "$src" ]; then
 
         conda install -c conda-forge ffmpeg
 
-        pip install pysoundfile
+        pip install soundfile
         pip install python-coveralls
         pip install pytest-cov
         source deactivate
