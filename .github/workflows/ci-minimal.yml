@@ -17,6 +17,9 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
+      - name: Install rubberband-cli and ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y rubberband-cli ffmpeg
+
       - name: Install dependencies
         run: pip install -e .[tests]
 
