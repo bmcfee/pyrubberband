@@ -61,7 +61,8 @@ copyright = u'2015, Brian McFee'
 #
 import sys
 
-from mock import MagicMock as Mock
+# Import mock in a python 3.12 compatible way
+from unittest.mock import MagicMock as Mock
 
 #class Mock(MagicMock):
 #    @classmethod
