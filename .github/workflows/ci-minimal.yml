@@ -27,7 +27,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y rubberband-cli
 
       - name: Install dependencies
-        run: pip install --use-deprecated=legacy-resolver --no-deps -e .[tests]
+        run: pip install --use-deprecated=legacy-resolver -e .[tests]
 
       - name: Run test
         run: python -m pytest tests
