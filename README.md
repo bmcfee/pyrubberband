@@ -30,4 +30,6 @@ Example usage
 >>> y, sr = sf.read("test.wav")
 >>> # Play back at double speed
 >>> y_stretch = pyrb.time_stretch(y, sr, 2.0)
+>>> # Pass rbargs supported in Rubberband CLI. See(rubberband -h or https://breakfastquay.com/rubberband/usage.txt)
+>>> y_stretch = pyrb.time_stretch(y, sr, 2.0, rbargs={'-c':'5', '--no_transients':''})
 ```
