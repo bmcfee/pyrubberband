@@ -4,7 +4,7 @@
 import numpy as np
 import pytest
 
-from contextlib2 import nullcontext as dnr
+from contextlib import nullcontext as dnr
 
 import pyrubberband
 
