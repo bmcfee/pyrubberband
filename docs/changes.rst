@@ -1,6 +1,13 @@
 Changes
 =======
 
+v0.4.0
+------
+  - Various updates to documentation and CI (`PR #29 <https://github.com/bmcfee/pyrubberband/pull/29>`_). *jhj0517*
+  - Added support for single-valued rbargs (`PR #25 <https://github.com/bmcfee/pyrubberband/pull/25>`_). *Aditya TB*
+  - Preserve dtypes (`PR #24 <https://github.com/bmcfee/pyrubberband/pull/24>`_). *Abigail O'Rourke*
+  - Now requires `soundfile` (not `pysoundfile`) (`PR #23 <https://github.com/bmcfee/pyrubberband/pull/23>`_) *Nick Henderson*
+
 v0.3.0
 ------
   - Added `timemap_stretch` for variable-rate warping. (`PR #15 <https://github.com/bmcfee/pyrubberband/pull/15>`_) *Marc Sarfati*
