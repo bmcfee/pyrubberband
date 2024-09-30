@@ -1,6 +1,6 @@
 <!--
 Thanks for contributing a pull request! Please ensure you have taken a look at
-the contribution guidelines: https://github.com/bmcfee/pyrubberband/blob/master/CONTRIBUTING.md#how-to-contribute
+the contribution guidelines: https://github.com/bmcfee/pyrubberband/blob/main/CONTRIBUTING.md#how-to-contribute
 -->
 #### Reference Issue
 <!-- Example: Fixes #123 -->

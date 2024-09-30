@@ -1,4 +1,4 @@
-<!-- Instructions For Filing a Bug: https://github.com/bmcfee/pyrubberband/blob/master/CONTRIBUTING.md#filing-bugs -->
+<!-- Instructions For Filing a Bug: https://github.com/bmcfee/pyrubberband/blob/main/CONTRIBUTING.md#filing-bugs -->
 
 #### Description
 <!-- Example: Output length does not match expectation-->

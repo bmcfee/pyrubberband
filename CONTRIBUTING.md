@@ -22,7 +22,7 @@ GitHub:
 
           $ git checkout -b my-feature
 
-   and start making changes. Never work in the ``master`` branch!
+   and start making changes. Never work in the ``main`` branch!
 
 4. Work on this copy on your computer using Git to do the version
    control. When you're done editing, do:
